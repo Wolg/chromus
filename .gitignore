@@ -1,6 +1,5 @@
 .idea
 .dropbox
-
 *.swk
-
 *sublime*
+node_modules
