@@ -115,7 +115,8 @@ compile = (file, ext) ->
         when 'coffee'
             exec "coffee -c #{file}"
         when 'less'
-            exec 'lessc #{file}'
+            css = file.replace(".less", ".css")
+            exec "lessc #{file} > #{css}"
 
 
 task "compile", "Compile all files", (options) ->
@@ -142,9 +143,12 @@ task 'watch', 'watch and compile coffee, less and tmpl files', ->
     walk __dirname, (err, files) ->
         for file in files
             ((file) ->
-                if ext = file.match(/\.(tmpl|coffee|less)$/)?[1]                    
-                    fs.watch file, (event) -> compile file, ext
-          
+                if ext = file.match(/\.(tmpl|coffee|less)$/)?[1]
+                    compileFunc = _.throttle -> 
+                        compile file, ext
+                    , 100 
+
+                    fs.watch file, compileFunc
             )(file)
 
 
