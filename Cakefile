@@ -79,6 +79,7 @@ task "build", "Build everything and minify", (options) ->
     concat bgjs, "./build/bg.js"
     uglify "./build/bg.js", "./build/bg.min.js"
 
+
 walk = (dir, done) ->
     results = []
     fs.readdir dir, (err, list) ->
@@ -104,8 +105,52 @@ walk = (dir, done) ->
 
 exec = require('child_process').exec
 
-task "tmpl", "Compile handlebars templates", (options) ->
-    walk "./", (err, files) ->
+
+compile = (file, ext) ->
+    console.log "File changed:", file, ext
+
+    switch ext
+        when 'tmpl'
+            exec "handlebars #{file} -f #{file}.js -k each -k if -k unless"
+        when 'coffee'
+            exec "coffee -c #{file}"
+        when 'less'
+            exec 'lessc #{file}'
+
+
+task "compile", "Compile all files", (options) ->
+    walk __dirname, (err, files) ->
         for file in files
-            if file.match(/\.tmpl$/)
-                exec "handlebars #{file} -f #{file}.js -k each -k if -k unless"
+            if ext = file.match(/\.(tmpl|coffee|less)$/)?[0] 
+                compile file, ext
+
+
+task "server", "Run server for local development", (options) ->    
+    invoke "watch"
+
+    app = require('express').createServer()
+    express = require('express')
+
+    app.configure ->
+        app.use express.static(__dirname)
+
+    console.log "starting server at localhost:8000"
+    app.listen 8000
+
+
+task 'watch', 'watch and compile coffee, less and tmpl files', ->
+    walk __dirname, (err, files) ->
+        for file in files
+            ((file) ->
+                if ext = file.match(/\.(tmpl|coffee|less)$/)?[1]                    
+                    fs.watch file, (event) -> compile file, ext
+          
+            )(file)
+
+
+task 'build', 'build zip file for distribution', ->
+    cmd [
+        'rm -f ext.zip'
+        'find . -type d -name .git -prune -o -type f -not \( -name "*.coffee" -o -name "*.less" -o -name "*.sublime*" -o -name ".gitignore" -o -name "*.zip" -o -name "Makefile" \) -print'
+        'zip -q ext -@'].join ' | '
+
