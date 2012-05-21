@@ -1,63 +1,46 @@
 @asset_path: "../../images/popup";
 
-@import "mixins.less";
+@import "mixins";
 
 #header {
     overflow: hidden;
 
-    position: absolute;
+    position: absolute;    
     height: 36px;
     width: 100%;
     background: #444;
     
     .box-sizing(border-box);
-    
+
     > div {
         width: 100%;
-        .box();
-        .box-align(center);
-    }
 
-    background: url("@{asset_path}/header_bg.png");
-    border-top: 1px solid #484848;
-    border-right: 1px solid #484848;
-    border-left: 1px solid #484848;
+        display:table;
 
-    .toggle {
-        margin-left: 5px;
-        .box-flex(0);
-    }
-
-    .button {
-        display: block;
-        padding: 0px 5px;
-        background-position: center;
-        background-repeat: no-repeat;
-        margin-top: -3px;
-
-        .opacity(90);
-
-        &:hover {
-            .opacity(100);
+        & > * {
+            display: table-cell; 
+            vertical-align: middle;
         }
     }
 
-    .button.pause {
-        background-image: url("@{asset_path}/play.png");
+    #gradient > .vertical(#515151, #303030);
+
+    .toggle {
+        margin-left: 5px;
     }
 
-    .button.play {
-            background-image: url("@{asset_path}/pause.png");        
-    }
-
-    .button.next {
-        background-image: url("@{asset_path}/next.png");
-        .box-flex(0);
+    .button {
+        padding: 0;
+        background-position: center;
+        background-repeat: no-repeat;
+        text-indent: 0;
+        font-size: 2em;
+        line-height: 100%;
+        color: #eee;
     }
 
     .timeline {        
         &.outer {
-            .box-flex(1);
             margin-left: 5px;
             height: 9px;
             background: url("@{asset_path}/timeline_bg.png") center left repeat-x;
@@ -94,9 +77,6 @@
 
 
     .time {
-        display: block;
-
-        .box-flex(0);
         padding: 0px 15px;
         text-align: right;
         color: white;
@@ -108,10 +88,8 @@
 
     
     .search {
-        display: block;
         cursor: pointer;
 
-        .box-flex(0);
         margin-top: -1px;
         margin-right: -1px;
         width: 48px;

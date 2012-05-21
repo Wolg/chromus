@@ -5,11 +5,14 @@
   outline: none;
   -webkit-font-smoothing: subpixel-antialiased;
 }
-span, p, div {
+span,
+p,
+div {
   -webkit-user-select: none;
   -moz-user-select: none;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 img {
@@ -70,7 +73,6 @@ a.button {
   margin-right: 0;
   position: relative;
   overflow: hidden;
-  font-size: 93%;
   line-height: 77%;
 }
 .clearfix {
@@ -339,7 +341,8 @@ a.button {
 .btn:focus {
   outline: 1px dotted #666;
 }
-.btn.active, .btn:active {
+.btn.active,
+.btn:active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -412,6 +415,7 @@ a.button {
   -o-transition: 0.1s linear all;
   transition: 0.1s linear all;
 }
-.test_mode #wrapper:hover ~ #background_page, .test_mode #wrapper:hover ~ .jasmine_reporter {
+.test_mode #wrapper:hover ~ #background_page,
+.test_mode #wrapper:hover ~ .jasmine_reporter {
   top: 99%;
 }

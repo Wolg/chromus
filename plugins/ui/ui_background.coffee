@@ -1,5 +1,6 @@
-music_manager = chromus.plugins.music_manager
 
+
+music_manager = chromus.plugins.music_manager
 
 music_manager.state.bind 'change', (state) ->
     track = music_manager.currentTrack()
@@ -50,3 +51,5 @@ browser.addMessageListener (msg, sender, sendResponse) ->
                 state: music_manager.state.toJSON()
                 volume: music_manager.getVolume()
                 settings: music_manager.settings.toJSON()
+
+                

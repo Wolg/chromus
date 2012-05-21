@@ -1,6 +1,6 @@
 class Player extends Backbone.Model
-    player_url: "http://chromusapp.appspot.com/"
-    #@player_url: "http://localhost:8080/";
+    #player_url: "http://chromusapp.appspot.com/"
+    player_url: "http://localhost:8081/"
 
 
     initialize: ->
