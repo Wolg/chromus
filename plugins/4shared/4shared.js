@@ -25,12 +25,11 @@
     };
 
     Source.prototype.search = function(args, callback) {
-      var data, query, url;
-      var _this = this;
+      var data, query, url,
+        _this = this;
       if (callback == null) callback = function() {};
       query = "" + args.artist + "_" + args.song;
       query = query.replace(/\s+/, "_").replace(" ", "_");
-      console.warn(query);
       url = "" + this.baseURL + "/" + query;
       if (browser.isFrame) {
         data = {

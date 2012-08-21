@@ -178,9 +178,9 @@ class Controls extends Backbone.View
     toggleSearch: ->
         $('#first_run .search-tip').hide()
         
-        @el.toggleClass('search_mode')
+        @$el.toggleClass('search_mode')
 
-        if @el.hasClass('search_mode')
+        if @$el.hasClass('search_mode')
             @$('.search_bar').addClass('show')
 
             setTimeout =>
@@ -277,7 +277,7 @@ class TrackInfo extends Backbone.View
 
         # If nothing playing, hide all info
         if not track
-            return @el.empty()                      
+            return @$el.empty()                      
 
         track.images ?= [chromus.plugins.lastfm.image artist: track.artist]
 
@@ -286,7 +286,7 @@ class TrackInfo extends Backbone.View
         track.album_url = "#{last_fm}/#{track.artist}/#{track.album}"
         track.song_url = "#{last_fm}/#{track.artist}/_/#{track.song}"        
         
-        @el.html(@template(track))
+        @$el.html(@template(track))
             .show()
 
     
@@ -384,7 +384,7 @@ class PlaylistView extends Backbone.View
         
         @model.bind "change:current_track", @updateCurrent
 
-        @el.find('.nano').nanoScroller()
+        @$el.find('.nano').nanoScroller()
                 
     
     togglePlaying: (evt) ->
@@ -451,13 +451,13 @@ class PlaylistView extends Backbone.View
 
         helpers = _.defaults helpers, Handlebars.helpers        
     
-        @el.find('.container').html @template view, helpers: helpers        
-        @el.css visibility:'visible'
+        @$el.find('.container').html @template view, helpers: helpers        
+        @$el.css visibility:'visible'
 
-        @el.find('.track_container').each (idx, el) ->
+        @$el.find('.track_container').each (idx, el) ->
             $(el).addClass('odd') if idx % 2 == 0
             
-        @el.find('.nano').nanoScroller()  
+        @$el.find('.nano').nanoScroller()  
 
 
 class App extends Backbone.View

@@ -32,7 +32,7 @@
     },
     searchAPI: function(args, callback) {
       var data, query;
-      console.warn('searching as logged user');
+      console.info('searching as logged user');
       query = "" + args.artist + " " + args.song;
       data = {
         q: query,
@@ -50,13 +50,14 @@
         data.access_token = args.access_token;
       }
       return $.ajax({
-        url: "https://api.vkontakte.ru/method/audio.search",
+        url: "https://api.vk.com/method/audio.search",
         data: data,
         dataType: "jsonp",
         cache: true,
         success: function(result) {
           var records;
           if (!result.response) return callback([]);
+          console.warn(result.response);
           records = _.map(_.rest(result.response), function(i) {
             return {
               artist: i.artist,
@@ -64,7 +65,7 @@
               duration: parseInt(i.duration),
               file_url: i.url,
               source_title: "Vkontakte",
-              source_icon: "http://vkontakte.ru/favicon.ico"
+              source_icon: "http://vk.com/favicon.ico"
             };
           });
           return callback(records);
@@ -89,7 +90,7 @@
       case "vk:auth":
         store.set("vk:token", msg.auth.access_token);
         store.set("vk:user_id", msg.auth.user_id);
-        $.ajax({
+        return $.ajax({
           url: "" + chromus.baseURL + "/api/token/add",
           data: {
             token: msg.auth.access_token
@@ -99,7 +100,6 @@
             return console.log('token added');
           }
         });
-        return console.warn("logged!");
     }
   });
 

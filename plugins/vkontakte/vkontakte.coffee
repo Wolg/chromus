@@ -41,7 +41,7 @@ VK =
 
     
     searchAPI: (args, callback) ->
-        console.warn 'searching as logged user'
+        console.info 'searching as logged user'
 
         query = "#{args.artist} #{args.song}"
 
@@ -60,13 +60,15 @@ VK =
             data.access_token = args.access_token
 
         $.ajax
-            url: "https://api.vkontakte.ru/method/audio.search"
+            url: "https://api.vk.com/method/audio.search"
             data: data,
             dataType: "jsonp"
             cache: true
 
             success: (result) ->
                 return callback [] unless result.response
+
+                console.warn result.response
 
                 records = _.map _.rest(result.response), (i) -> 
                     {
@@ -75,7 +77,7 @@ VK =
                         duration: parseInt(i.duration)
                         file_url: i.url
                         source_title: "Vkontakte"
-                        source_icon: "http://vkontakte.ru/favicon.ico"
+                        source_icon: "http://vk.com/favicon.ico"
                     }
                                 
                 callback(records)        
@@ -108,4 +110,4 @@ browser.addMessageListener (msg, sender, sendResponse) ->
                 success: (resp) ->
                     console.log 'token added'
 
-            console.warn "logged!"
+#            console.warn "logged!"

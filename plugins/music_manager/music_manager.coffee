@@ -162,7 +162,7 @@ class MusicManager extends Backbone.Model
             
             @state.set 'name':'loading'
 
-        console.warn "trying to play track", track
+#        console.warn "trying to play track", track
 
         unless track.get 'type'
             # If track already have file_url, we can start playling immideatly
@@ -184,7 +184,7 @@ class MusicManager extends Backbone.Model
     # Handle media type, registed by one of plugins    
     # Plugins can register it using `chromus.registerMediaType`
     _handleMediaType: (track, media_type = track.get('type')) ->
-        console.warn "trying to handle media type", track
+#        console.warn "trying to handle media type", track
 
         unless media_handler = chromus.media_types[media_type]
             throw "Can't find handler for media type `#{media_type}`"
@@ -193,7 +193,7 @@ class MusicManager extends Backbone.Model
             # If handler returs multiple elements we should reset playlist
             # May change in future
 
-            console.warn "resp", resp
+#            console.warn "resp", resp
 
             if _.isArray resp
                 @playlist.reset resp

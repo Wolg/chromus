@@ -1,19 +1,22 @@
 (function() {
-  var MusicManager, Playlist, Track, music_manager;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var MusicManager, Playlist, Track, music_manager,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  Track = (function() {
+  Track = (function(_super) {
 
-    __extends(Track, Backbone.Model);
+    __extends(Track, _super);
 
     function Track() {
       Track.__super__.constructor.apply(this, arguments);
     }
 
     Track.prototype.initialize = function() {
-      return this.set({
-        'id': !this.id ? chromus.utils.uid() : void 0
-      });
+      if (!this.id) {
+        return this.set({
+          'id': chromus.utils.uid()
+        });
+      }
     };
 
     Track.prototype.title = function() {
@@ -22,11 +25,11 @@
 
     return Track;
 
-  })();
+  })(Backbone.Model);
 
-  Playlist = (function() {
+  Playlist = (function(_super) {
 
-    __extends(Playlist, Backbone.Collection);
+    __extends(Playlist, _super);
 
     function Playlist() {
       Playlist.__super__.constructor.apply(this, arguments);
@@ -36,11 +39,11 @@
 
     return Playlist;
 
-  })();
+  })(Backbone.Collection);
 
-  MusicManager = (function() {
+  MusicManager = (function(_super) {
 
-    __extends(MusicManager, Backbone.Model);
+    __extends(MusicManager, _super);
 
     function MusicManager() {
       MusicManager.__super__.constructor.apply(this, arguments);
@@ -109,8 +112,8 @@
     };
 
     MusicManager.prototype.searchTrack = function(track, callback) {
-      var name, obj, results, searchCallback, _ref, _results;
-      var _this = this;
+      var name, obj, results, searchCallback, _ref, _results,
+        _this = this;
       if (callback == null) callback = function() {};
       results = [];
       searchCallback = function() {
@@ -163,7 +166,6 @@
           'name': 'loading'
         });
       }
-      console.warn("trying to play track", track);
       if (!track.get('type')) {
         if (track.get('file_url')) {
           this.state.set({
@@ -185,15 +187,13 @@
     };
 
     MusicManager.prototype._handleMediaType = function(track, media_type) {
-      var media_handler;
-      var _this = this;
+      var media_handler,
+        _this = this;
       if (media_type == null) media_type = track.get('type');
-      console.warn("trying to handle media type", track);
       if (!(media_handler = chromus.media_types[media_type])) {
         throw "Can't find handler for media type `" + media_type + "`";
       }
       return media_handler(track, function(resp) {
-        console.warn("resp", resp);
         if (_.isArray(resp)) {
           _this.playlist.reset(resp);
           return _this.play(_this.playlist.first());
@@ -243,7 +243,7 @@
 
     return MusicManager;
 
-  })();
+  })(Backbone.Model);
 
   music_manager = new MusicManager();
 

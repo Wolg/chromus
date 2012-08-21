@@ -1,3 +1,4 @@
+(function() {
 
   describe("LastFM plugin", function() {
     var fixtures, lastfm, manager;
@@ -80,12 +81,18 @@
       return expect(callback_spy.mostRecentCall.args[0][0]).toEqual({
         artist: "Radiohead",
         song: "Karma Police",
-        duration: 262
+        duration: 262,
+        images: [
+          {
+            '#text': 'http://userserve-ak.last.fm/serve/34s/66781226.png',
+            size: 'small'
+          }
+        ]
       });
     });
     it("should load artist top tracks", function() {
-      var first_track_id, play_spy, search_spy, top_spy;
-      var _this = this;
+      var first_track_id, play_spy, search_spy, top_spy,
+        _this = this;
       manager.playlist.reset();
       top_spy = spyOn(lastfm.artist, 'getTopTracks').andCallFake(function(artist, callback) {
         return callback(fixtures.playlist);
@@ -167,3 +174,5 @@
       return expect(scrobble_spy.callCount).toBe(1);
     });
   });
+
+}).call(this);

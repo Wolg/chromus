@@ -19,7 +19,7 @@ class LastfmLovedRadio
             user: store.get("lastfm:user")
             page: @page
         , (response) =>            
-                console.warn @page, response.lovedtracks.track.length, @pages
+#                console.warn @page, response.lovedtracks.track.length, @pages
         
                 # If this is first call
                 unless @pages.length

@@ -43,7 +43,7 @@ class PopupLocalPlayer extends Backbone.Model
             console.warn "READ FILES", evt
             callback(evt.target.result)
 
-        console.warn "reading files", file
+#        console.warn "reading files", file
 
         reader.readAsDataURL(file)
 

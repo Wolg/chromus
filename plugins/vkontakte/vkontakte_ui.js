@@ -1,12 +1,13 @@
 (function() {
-  var VkUI, menu, ui, vk;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var VkUI, menu, ui, vk,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   vk = chromus.plugins.vkontakte;
 
-  VkUI = (function() {
+  VkUI = (function(_super) {
 
-    __extends(VkUI, Backbone.View);
+    __extends(VkUI, _super);
 
     function VkUI() {
       VkUI.__super__.constructor.apply(this, arguments);
@@ -78,13 +79,12 @@
 
     return VkUI;
 
-  })();
+  })(Backbone.View);
 
   ui = new VkUI();
 
   menu = $('<li class="vkontakte">Vkontakte</li>').bind('click', function() {
     $('#main_menu').hide();
-    console.warn(ui.open, ui);
     return ui.open();
   });
 

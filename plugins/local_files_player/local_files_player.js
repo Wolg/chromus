@@ -1,10 +1,11 @@
 (function() {
-  var Player;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var Player,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  Player = (function() {
+  Player = (function(_super) {
 
-    __extends(Player, Backbone.Model);
+    __extends(Player, _super);
 
     function Player() {
       Player.__super__.constructor.apply(this, arguments);
@@ -18,11 +19,9 @@
     };
 
     Player.prototype.listener = function(msg) {
-      var _ref;
       switch (msg.method) {
         case 'localPlayer:fileContent':
-          if ((_ref = this.callback) == null) this.callback = function() {};
-          console.warn('received file content', msg);
+          if (this.callback == null) this.callback = function() {};
           return this.callback({
             file_url: msg.content
           });
@@ -39,7 +38,7 @@
 
     return Player;
 
-  })();
+  })(Backbone.Model);
 
   this.chromus.registerPlayer("local_files_player", new Player());
 

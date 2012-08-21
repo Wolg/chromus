@@ -70,7 +70,7 @@ menu = $('<li class="vkontakte">Vkontakte</li>')
     .bind 'click', ->
         $('#main_menu').hide()        
 
-        console.warn(ui.open, ui)
+#        console.warn(ui.open, ui)
         ui.open()
 
 chromus.addMenu menu

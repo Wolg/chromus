@@ -38,6 +38,7 @@ describe "LastFM plugin", ->
             artist: "Radiohead"
             song: "Karma Police"
             duration: 262
+            images : [ { '#text': 'http://userserve-ak.last.fm/serve/34s/66781226.png', size : 'small' } ]
 
 
     it "should load artist top tracks", ->

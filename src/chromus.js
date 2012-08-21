@@ -44,8 +44,8 @@
     };
 
     Chromus.prototype.loadPlugins = function() {
-      var callback, plugin, _i, _len, _ref, _results;
-      var _this = this;
+      var callback, plugin, _i, _len, _ref, _results,
+        _this = this;
       callback = _.after(this.plugins_list.length, this.injectPluginFiles);
       _ref = this.plugins_list;
       _results = [];
@@ -72,8 +72,10 @@
 
     Chromus.prototype.pluginsLoadedCallback = function() {
       if (typeof global.isTestMode === "function" ? global.isTestMode() : void 0) {
-        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-        return jasmine.getEnv().execute();
+        return setTimeout(function() {
+          jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+          return jasmine.getEnv().execute();
+        }, 0);
       }
     };
 
@@ -125,8 +127,7 @@
 
   this.chromus.utils = {
     uid: function() {
-      var _ref;
-      if ((_ref = this.uid_start) == null) this.uid_start = +new Date();
+      if (this.uid_start == null) this.uid_start = +new Date();
       return this.uid_start++;
     }
   };

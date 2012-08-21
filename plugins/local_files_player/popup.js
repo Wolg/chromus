@@ -1,10 +1,11 @@
 (function() {
-  var PopupLocalPlayer;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var PopupLocalPlayer,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  PopupLocalPlayer = (function() {
+  PopupLocalPlayer = (function(_super) {
 
-    __extends(PopupLocalPlayer, Backbone.Model);
+    __extends(PopupLocalPlayer, _super);
 
     function PopupLocalPlayer() {
       PopupLocalPlayer.__super__.constructor.apply(this, arguments);
@@ -49,7 +50,6 @@
         console.warn("READ FILES", evt);
         return callback(evt.target.result);
       };
-      console.warn("reading files", file);
       return reader.readAsDataURL(file);
     };
 
@@ -68,7 +68,7 @@
 
     return PopupLocalPlayer;
 
-  })();
+  })(Backbone.Model);
 
   new PopupLocalPlayer();
 

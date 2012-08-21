@@ -1,10 +1,11 @@
 (function() {
-  var App, Controls, Footer, Player, Playlist, PlaylistView, Track, TrackInfo, clear_playlist;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var App, Controls, Footer, Player, Playlist, PlaylistView, Track, TrackInfo, clear_playlist,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   Handlebars.registerHelper('lfm_img', function(context) {
-    var image, _ref;
-    if ((_ref = context.images) == null) context.images = context.image;
+    var image;
+    if (context.images == null) context.images = context.image;
     if (!context.images) return "about:blank";
     image = context.images[0];
     if (typeof context.images[0] !== "string") {
@@ -18,9 +19,9 @@
     }
   });
 
-  Track = (function() {
+  Track = (function(_super) {
 
-    __extends(Track, Backbone.Model);
+    __extends(Track, _super);
 
     function Track() {
       Track.__super__.constructor.apply(this, arguments);
@@ -28,11 +29,11 @@
 
     return Track;
 
-  })();
+  })(Backbone.Model);
 
-  Playlist = (function() {
+  Playlist = (function(_super) {
 
-    __extends(Playlist, Backbone.Collection);
+    __extends(Playlist, _super);
 
     function Playlist() {
       Playlist.__super__.constructor.apply(this, arguments);
@@ -42,11 +43,11 @@
 
     return Playlist;
 
-  })();
+  })(Backbone.Collection);
 
-  Player = (function() {
+  Player = (function(_super) {
 
-    __extends(Player, Backbone.Model);
+    __extends(Player, _super);
 
     function Player() {
       Player.__super__.constructor.apply(this, arguments);
@@ -146,20 +147,22 @@
         }
       }
       if (msg.settings != null) this.settings.set(msg.settings);
-      this.set({
-        'volume': msg.volume != null ? msg.volume : void 0
-      });
+      if (msg.volume != null) {
+        this.set({
+          'volume': msg.volume
+        });
+      }
       if (msg.state != null) this.state.set(msg.state);
       if (msg.playlist) return this.playlist.reset(msg.playlist);
     };
 
     return Player;
 
-  })();
+  })(Backbone.Model);
 
-  Controls = (function() {
+  Controls = (function(_super) {
 
-    __extends(Controls, Backbone.View);
+    __extends(Controls, _super);
 
     function Controls() {
       Controls.__super__.constructor.apply(this, arguments);
@@ -179,8 +182,8 @@
     };
 
     Controls.prototype.initialize = function() {
-      var opts;
-      var _this = this;
+      var opts,
+        _this = this;
       _.bindAll(this);
       this.model.state.bind('change', this.updateState);
       opts = {
@@ -201,7 +204,7 @@
     };
 
     Controls.prototype.updateState = function(state) {
-      var toggle, track, _ref;
+      var toggle, track;
       track = this.model.currentTrack();
       state = state.toJSON();
       toggle = this.$('.toggle').removeClass('play pause');
@@ -223,7 +226,7 @@
       if (track != null ? track.get('duration') : void 0) {
         this.$('.inner').width(state.played / track.get('duration') * 100 + '%');
         this.$('.time').html("-" + prettyTime(track.get('duration') - state.played));
-        if ((_ref = state.buffered) == null) state.buffered = 0;
+        if (state.buffered == null) state.buffered = 0;
         return this.$('.progress').width(state.buffered / track.get('duration') * 100 + '%');
       } else {
         return this.$('.time').html(prettyTime(0));
@@ -250,11 +253,11 @@
     };
 
     Controls.prototype.toggleSearch = function() {
-      var _ref;
-      var _this = this;
+      var _ref,
+        _this = this;
       $('#first_run .search-tip').hide();
-      this.el.toggleClass('search_mode');
-      if (this.el.hasClass('search_mode')) {
+      this.$el.toggleClass('search_mode');
+      if (this.$el.hasClass('search_mode')) {
         this.$('.search_bar').addClass('show');
         setTimeout(function() {
           return _this.$('.search_bar').find('input').focus();
@@ -267,8 +270,8 @@
     };
 
     Controls.prototype.search = _.debounce(function(evt) {
-      var render, text, _ref;
-      var _this = this;
+      var render, text, _ref,
+        _this = this;
       if ((_ref = evt.keyCode) === 40 || _ref === 45 || _ref === 37 || _ref === 39 || _ref === 38) {
         return;
       }
@@ -345,11 +348,11 @@
 
     return Controls;
 
-  })();
+  })(Backbone.View);
 
-  TrackInfo = (function() {
+  TrackInfo = (function(_super) {
 
-    __extends(TrackInfo, Backbone.View);
+    __extends(TrackInfo, _super);
 
     function TrackInfo() {
       TrackInfo.__super__.constructor.apply(this, arguments);
@@ -370,10 +373,10 @@
     };
 
     TrackInfo.prototype.updateInfo = function() {
-      var last_fm, track, _ref, _ref2;
+      var last_fm, track, _ref;
       track = (_ref = this.model.currentTrack()) != null ? _ref.toJSON() : void 0;
-      if (!track) return this.el.empty();
-      if ((_ref2 = track.images) == null) {
+      if (!track) return this.$el.empty();
+      if (track.images == null) {
         track.images = [
           chromus.plugins.lastfm.image({
             artist: track.artist
@@ -384,7 +387,7 @@
       track.artist_url = "" + last_fm + "/" + track.artist;
       track.album_url = "" + last_fm + "/" + track.artist + "/" + track.album;
       track.song_url = "" + last_fm + "/" + track.artist + "/_/" + track.song;
-      return this.el.html(this.template(track)).show();
+      return this.$el.html(this.template(track)).show();
     };
 
     TrackInfo.prototype.albumCover = function() {
@@ -406,11 +409,11 @@
 
     return TrackInfo;
 
-  })();
+  })(Backbone.View);
 
-  Footer = (function() {
+  Footer = (function(_super) {
 
-    __extends(Footer, Backbone.View);
+    __extends(Footer, _super);
 
     function Footer() {
       Footer.__super__.constructor.apply(this, arguments);
@@ -481,11 +484,11 @@
 
     return Footer;
 
-  })();
+  })(Backbone.View);
 
-  PlaylistView = (function() {
+  PlaylistView = (function(_super) {
 
-    __extends(PlaylistView, Backbone.View);
+    __extends(PlaylistView, _super);
 
     function PlaylistView() {
       PlaylistView.__super__.constructor.apply(this, arguments);
@@ -509,7 +512,7 @@
         this.model.playlist.bind(evt, render_limiter);
       }
       this.model.bind("change:current_track", this.updateCurrent);
-      return this.el.find('.nano').nanoScroller();
+      return this.$el.find('.nano').nanoScroller();
     };
 
     PlaylistView.prototype.togglePlaying = function(evt) {
@@ -543,12 +546,12 @@
     };
 
     PlaylistView.prototype.updatePlaylist = function() {
-      var helpers, merge_rows, model, playlist, track, view, _i, _len, _ref;
+      var helpers, merge_rows, model, playlist, track, view, _i, _len;
       merge_rows = 0;
       playlist = this.model.playlist.toJSON();
       for (_i = 0, _len = playlist.length; _i < _len; _i++) {
         track = playlist[_i];
-        if ((_ref = track.images) == null) {
+        if (track.images == null) {
           track.images = [
             chromus.plugins.lastfm.image({
               artist: track.artist
@@ -589,25 +592,25 @@
         }
       };
       helpers = _.defaults(helpers, Handlebars.helpers);
-      this.el.find('.container').html(this.template(view, {
+      this.$el.find('.container').html(this.template(view, {
         helpers: helpers
       }));
-      this.el.css({
+      this.$el.css({
         visibility: 'visible'
       });
-      this.el.find('.track_container').each(function(idx, el) {
+      this.$el.find('.track_container').each(function(idx, el) {
         if (idx % 2 === 0) return $(el).addClass('odd');
       });
-      return this.el.find('.nano').nanoScroller();
+      return this.$el.find('.nano').nanoScroller();
     };
 
     return PlaylistView;
 
-  })();
+  })(Backbone.View);
 
-  App = (function() {
+  App = (function(_super) {
 
-    __extends(App, Backbone.View);
+    __extends(App, _super);
 
     function App() {
       App.__super__.constructor.apply(this, arguments);
@@ -655,7 +658,7 @@
 
     return App;
 
-  })();
+  })(Backbone.View);
 
   this.app = new App();
 

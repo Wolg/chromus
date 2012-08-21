@@ -25,7 +25,7 @@ class Source
         query = "#{args.artist}_#{args.song}"
         query = query.replace(/\s+/,"_").replace(" ","_")
             
-        console.warn query
+#        console.warn query
 
         url = "#{@baseURL}/#{query}"        
 

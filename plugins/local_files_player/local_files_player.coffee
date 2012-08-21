@@ -14,7 +14,7 @@ class Player extends Backbone.Model
             when 'localPlayer:fileContent'                
                 @callback ?= ->
 
-                console.warn 'received file content', msg
+#                console.warn 'received file content', msg
                 
                 @callback file_url: msg.content
                 

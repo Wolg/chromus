@@ -69,10 +69,12 @@ class Chromus
                 
                     
 
-    pluginsLoadedCallback: ->
+    pluginsLoadedCallback: ->        
         if global.isTestMode?()
-            jasmine.getEnv().addReporter(new jasmine.TrivialReporter())
-            jasmine.getEnv().execute()
+            setTimeout ->
+                jasmine.getEnv().addReporter(new jasmine.TrivialReporter())
+                jasmine.getEnv().execute()
+            , 0
 
 
     registerPlugin: (name, context) ->
