@@ -48,6 +48,7 @@ if @debug
         "test_mode!css!lib/jasmine/jasmine.css"
         "test_mode!lib/jasmine/jasmine.js"
         "test_mode!lib/jasmine/jasmine-html.js"
+        "test_mode!lib/jasmine/jasmine-jquery.js"
 
         "src/chromus.js?" + (+new Date())
         "src/utils.js"
